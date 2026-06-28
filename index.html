@@ -1,105 +1,175 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XVII Stock Control</title>
+<title>XVII Perfumes</title>
 
 <style>
-body{margin:0;font-family:Arial;direction:rtl;background:#fff}
-header{background:#000;color:#fff;text-align:center;padding:15px;font-size:24px}
-.container{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;padding:10px}
-.card{border:1px solid #ddd;padding:10px;border-radius:10px;text-align:center}
-img{width:100%;height:120px;object-fit:cover;border-radius:8px}
-button{width:100%;padding:6px;margin-top:5px;border:none;background:#000;color:#fff;border-radius:5px}
-.out{color:red;font-weight:bold}
-.stock{color:#444;font-size:14px}
-.small{display:flex;gap:5px;margin-top:5px}
-.small button{flex:1;background:#333}
-input{width:90%;padding:5px;margin-top:5px}
+body{
+font-family: Arial;
+margin:0;
+background:#fff;
+color:#111;
+direction:rtl;
+}
+
+header{
+background:#000;
+color:#fff;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.tagline{
+text-align:center;
+margin:15px;
+font-size:16px;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:10px;
+padding:10px;
+}
+
+.card{
+border:1px solid #ddd;
+padding:10px;
+border-radius:10px;
+text-align:center;
+}
+
+.card img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:10px;
+}
+
+button{
+background:#000;
+color:#fff;
+border:none;
+padding:8px;
+margin-top:8px;
+width:100%;
+border-radius:8px;
+cursor:pointer;
+}
+
+#formBox{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+padding:20px;
+box-sizing:border-box;
+}
+
+.form{
+background:#fff;
+padding:15px;
+border-radius:10px;
+margin-top:50px;
+}
+
+input{
+width:100%;
+padding:8px;
+margin:5px 0;
+}
+
+.close{
+background:red;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>XVII STOCK MANAGER</header>
+<header>XVII</header>
+<div class="tagline">عطورنا أصلية ومختارة بعناية</div>
 
-<div class="container" id="list"></div>
+<div class="container" id="products"></div>
 
-<script>
+<div id="formBox">
+<div class="form">
+<h3>إتمام الطلب</h3>
+<input id="name" placeholder="الاسم الكامل">
+<input id="phone" placeholder="رقم الهاتف">
+<input id="location" placeholder="رابط الموقع من Google Maps">
+<input id="note" placeholder="ملاحظات">
 
-// العطور
-let perfumes = [
-{name:"Dior Sauvage",price:350,image:"https://via.placeholder.com/300",stock:3},
-{name:"Chanel Bleu",price:400,image:"https://via.placeholder.com/300",stock:1},
-{name:"Armani Code",price:300,image:"https://via.placeholder.com/300",stock:0}
-];
-
-// عرض
-function load(){
-let box=document.getElementById("list");
-box.innerHTML="";
-
-perfumes.forEach((p,i)=>{
-
-box.innerHTML+=`
-<div class="card">
-<img src="${p.image}">
-<h4>${p.name}</h4>
-<p>${p.price} د.ل</p>
-<div class="stock">الكمية: ${p.stock}</div>
-
-${
-p.stock>0
-? `<button onclick="sell(${i})">طلب</button>`
-: `<div class="out">نفذ المخزون</div>`
-}
-
-<div class="small">
-<button onclick="add(${i})">+1</button>
-<button onclick="remove(${i})">-1</button>
+<button onclick="sendOrder()">إرسال عبر واتساب</button>
+<button class="close" onclick="closeForm()">إغلاق</button>
+</div>
 </div>
 
-<input type="number" placeholder="تعديل مباشر" onchange="setStock(${i},this.value)">
+<script>
+let selectedProduct = "";
+
+let products = [
+{name:"Dior Sauvage", price:"350", img:"https://via.placeholder.com/200"},
+{name:"Bleu de Chanel", price:"320", img:"https://via.placeholder.com/200"},
+{name:"Acqua Di Gio", price:"300", img:"https://via.placeholder.com/200"},
+{name:"Versace Eros", price:"280", img:"https://via.placeholder.com/200"},
+{name:"Tom Ford Noir", price:"400", img:"https://via.placeholder.com/200"},
+{name:"Creed Aventus", price:"500", img:"https://via.placeholder.com/200"},
+{name:"YSL Y", price:"310", img:"https://via.placeholder.com/200"},
+{name:"212 Men", price:"260", img:"https://via.placeholder.com/200"},
+{name:"One Million", price:"270", img:"https://via.placeholder.com/200"},
+{name:"Invictus", price:"250", img:"https://via.placeholder.com/200"}
+];
+
+function load(){
+let box = document.getElementById("products");
+products.forEach((p,i)=>{
+box.innerHTML += `
+<div class="card">
+<img src="${p.img}">
+<h4>${p.name}</h4>
+<p>${p.price} د.ل</p>
+<button onclick="order('${p.name}')">اطلب الآن</button>
 </div>
 `;
 });
 }
 
-// بيع
-function sell(i){
-if(perfumes[i].stock<=0){
-alert("نفذ المخزون");
-return;
-}
-perfumes[i].stock--;
-window.open("https://wa.me/218911277527?text=طلب%20عطر:%20"+perfumes[i].name);
-load();
+function order(name){
+selectedProduct = name;
+document.getElementById("formBox").style.display="block";
 }
 
-// +1
-function add(i){
-perfumes[i].stock++;
-load();
+function closeForm(){
+document.getElementById("formBox").style.display="none";
 }
 
-// -1
-function remove(i){
-if(perfumes[i].stock>0){
-perfumes[i].stock--;
-}
-load();
-}
+function sendOrder(){
+let name = document.getElementById("name").value;
+let phone = document.getElementById("phone").value;
+let location = document.getElementById("location").value;
+let note = document.getElementById("note").value;
 
-// تعديل مباشر
-function setStock(i,val){
-perfumes[i].stock = Number(val);
-load();
+let msg =
+`طلب جديد من XVII%0A
+العطر: ${selectedProduct}%0A
+الاسم: ${name}%0A
+الهاتف: ${phone}%0A
+الموقع: ${location}%0A
+ملاحظات: ${note}`;
+
+window.open("https://wa.me/218911277527?text=" + msg);
 }
 
 load();
-
 </script>
 
 </body>
