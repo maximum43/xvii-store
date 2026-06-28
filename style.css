@@ -8,19 +8,27 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+/* الخلفية العامة للموقع أصبحت بيضاء بناءً على طلبك */
 body {
-    background-color: #0b0b0b;
-    color: #fff;
+    background-color: #ffffff;
+    color: #111111;
     padding-bottom: 40px;
 }
 
-/* الهيدر */
+/* الجزء العلوي (الهيدر ومنطقة النص الترحيبي) بالخلفية السوداء الفاخرة */
+.top-black-section {
+    background-color: #0b0b0b;
+    color: #ffffff;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 6%;
-    background-color: #0b0b0b;
+    padding: 20px 6% 10px 6%;
+    background-color: transparent;
 }
 
 .logo {
@@ -33,14 +41,14 @@ header {
 .cart-icon {
     position: relative;
     cursor: pointer;
-    background: #161616;
+    background: #1c1c1c;
     width: 45px;
     height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    border: 1px solid #222;
+    border: 1px solid #2d2d2d;
 }
 
 .cart-icon i {
@@ -52,8 +60,8 @@ header {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: #fff;
-    color: #000;
+    background-color: #ffffff;
+    color: #000000;
     border-radius: 50%;
     width: 18px;
     height: 18px;
@@ -66,28 +74,31 @@ header {
 
 .hero-text {
     text-align: center;
-    color: #888;
+    color: #aaaaaa;
     font-size: 14px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    font-weight: 300;
 }
 
-/* أزرار الأقسام الدائرية (Tabs) */
+/* أزرار الأقسام الدائرية (Tabs) - في الجزء الأبيض */
 .tabs-container {
     display: flex;
     justify-content: center;
     gap: 10px;
-    padding: 10px 5%;
+    padding: 25px 5% 15px 5%;
     overflow-x: auto;
     white-space: nowrap;
+    background-color: #ffffff;
 }
 
 .tabs-container::-webkit-scrollbar {
     display: none; /* إخفاء شريط التمرير المزعج على الهواتف */
 }
 
+/* الأزرار العلوية أصبحت فاتحة لكي تتناسب مع الخلفية البيضاء العامة */
 .tab-btn {
-    background: #fff;
-    color: #000;
+    background: #f4f4f4;
+    color: #333333;
     border: 1px solid #e0e0e0;
     padding: 8px 24px;
     border-radius: 20px;
@@ -98,14 +109,15 @@ header {
 }
 
 .tab-btn.active {
-    background: #111111;
-    color: #fff;
-    border-color: #111111;
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
 }
 
-/* شبكة المنتجات الجديدة كلياً */
+/* شبكة المنتجات في الجزء الأبيض */
 main {
-    padding: 20px 4%;
+    padding: 10px 4% 30px 4%;
+    background-color: #ffffff;
 }
 
 .products-grid {
@@ -120,24 +132,25 @@ main {
     }
 }
 
-/* بطاقة المنتج الفاخرة */
+/* بطاقة المنتج الفاخرة - تبرز فوق الخلفية البيضاء العامة بظلال خفيفة وراقية */
 .product-card {
-    background: #fff;
-    color: #000;
+    background: #ffffff;
+    color: #000000;
     border-radius: 18px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     position: relative;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 1px solid #eaeaea;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
 .badge-best {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #000;
-    color: #fff;
+    background: #000000;
+    color: #ffffff;
     font-size: 11px;
     padding: 3px 10px;
     border-radius: 12px;
@@ -145,8 +158,9 @@ main {
     z-index: 2;
 }
 
+/* حاوية الصورة رمادية فاتحة جداً لتطابق لقطة الشاشة تماماً */
 .img-container {
-    background: #f4f4f2;
+    background: #f5f5f3;
     width: 100%;
     height: 180px;
     display: flex;
@@ -170,7 +184,7 @@ main {
 
 .brand-name {
     font-size: 11px;
-    color: #999;
+    color: #999999;
     text-align: left;
 }
 
@@ -179,7 +193,7 @@ main {
     font-weight: 700;
     margin: 4px 0;
     text-align: left;
-    color: #111;
+    color: #111111;
 }
 
 .product-price {
@@ -190,12 +204,12 @@ main {
     margin-bottom: 12px;
 }
 
-/* زر أضف للسلة المودرن الممتد */
+/* زر أضف للسلة المودرن الأسود الممتد */
 .add-to-cart-btn {
-    background: #000;
-    color: #fff;
+    background: #000000;
+    color: #ffffff;
     border: none;
-    padding: 10px;
+    padding: 11px;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
@@ -210,10 +224,10 @@ main {
 }
 
 .add-to-cart-btn:active {
-    background: #333;
+    background: #333333;
 }
 
-/* سلة المشتريات الجانبية */
+/* سلة المشتريات الجانبية (تبقى داكنة لتوحي بالفخامة والأمان أثناء الدفع) */
 .cart-sidebar {
     position: fixed;
     top: 0;
@@ -228,7 +242,7 @@ main {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid #222;
+    border-right: 1px solid #222222;
 }
 
 .cart-sidebar.open { left: 0; }
@@ -237,10 +251,10 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #222222;
     padding-bottom: 15px;
 }
-.close-btn { cursor: pointer; font-size: 20px; color: #fff; }
+.close-btn { cursor: pointer; font-size: 20px; color: #ffffff; }
 
 .cart-items {
     flex: 1;
@@ -255,32 +269,32 @@ main {
     background: #141414;
     padding: 12px;
     border-radius: 12px;
-    border: 1px solid #222;
+    border: 1px solid #222222;
 }
-.cart-item-info h4 { font-size: 14px; color: #fff; }
-.cart-item-info p { font-size: 12px; color: #aaa; margin-top: 4px; }
+.cart-item-info h4 { font-size: 14px; color: #ffffff; }
+.cart-item-info p { font-size: 12px; color: #aaaaaa; margin-top: 4px; }
 .remove-item { color: #ff4d4d; cursor: pointer; font-size: 14px; }
 
-.cart-footer { border-top: 1px solid #222; padding-top: 15px; }
-.total-price { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #fff;}
+.cart-footer { border-top: 1px solid #222222; padding-top: 15px; }
+.total-price { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #ffffff;}
 .cart-footer h4 { margin-bottom: 10px; font-size: 14px; color: #c5a880;}
 
 .cart-footer input, .cart-footer textarea {
     width: 100%;
     padding: 10px;
     background: #141414;
-    border: 1px solid #222;
+    border: 1px solid #222222;
     border-radius: 8px;
-    color: #fff;
+    color: #ffffff;
     margin-bottom: 10px;
     font-size: 13px;
 }
-.cart-footer input::placeholder, .cart-footer textarea::placeholder { color: #666; }
+.cart-footer input::placeholder, .cart-footer textarea::placeholder { color: #666666; }
 .cart-footer textarea { height: 60px; resize: none; }
 
 .whatsapp-btn {
     background-color: #25D366;
-    color: #fff;
+    color: #ffffff;
     border: none;
     padding: 14px;
     width: 100%;
