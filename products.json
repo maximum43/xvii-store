@@ -1,1 +1,35 @@
+[
+  {
+    "id": 1,
+    "name": "Dior Sauvage",
+    "category": "men",
+    "price": 350,
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500"
+  },
+  {
+    "id": 2,
+    "name": "Bleu de Chanel",
+    "category": "men",
+    "price": 320,
+    "stock": 3,
+    "image": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500"
+  },
+  {
+    "id": 3,
+    "name": "Coco Mademoiselle",
+    "category": "women",
+    "price": 350,
+    "stock": 4,
+    "image": "https://images.unsplash.com/photo-1588405748373-122b2321bc31?w=500"
+  },
+  {
+    "id": 4,
+    "name": "Good Girl",
+    "category": "women",
+    "price": 380,
+    "stock": 0,
+    "image": "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500"
+  }
+]
 
