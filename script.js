@@ -1,7 +1,7 @@
 let allProducts = [];
 let cart = [];
 
-// جلب المنتجات من ملف JSON عند تحميل الصفحة
+// جلب المنتجات الفعليّة من ملف الـ JSON
 document.addEventListener("DOMContentLoaded", () => {
     fetch('products.json')
         .then(response => response.json())
@@ -9,37 +9,51 @@ document.addEventListener("DOMContentLoaded", () => {
             allProducts = data;
             displayProducts(allProducts);
         })
-        .catch(err => console.error("خطأ في تحميل العطور:", err));
+        .catch(err => console.error("خطأ في جلب ملف المنتجات:", err));
 });
 
-// عرض المنتجات في الصفحة
+// عرض المنتجات بالهيكل الجديد المتناسق مع الهاتف
 function displayProducts(products) {
     const container = document.getElementById("products-container");
     container.innerHTML = "";
 
     products.forEach(product => {
-        const isOutOfStock = product.stock === 0;
-        const stockText = isOutOfStock ? '<p class="out-of-stock-tag">نفد المخزون</p>' : `<p class="stock-tag">متوفر (${product.stock})</p>`;
-        
         const card = document.createElement("div");
         card.className = "product-card";
+        
+        // وسم "الأكثر مبيعاً" الافتراضي كالموجود بالصورة لعطر ديور كمثال
+        const bestSellerBadge = product.bestSeller ? `<div class="badge-best">الأكثر مبيعاً</div>` : '';
+
         card.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-img">
-            <h3 class="product-title">${product.name}</h3>
-            <p class="product-price">${product.price} د.ل</p>
-            ${stockText}
-            <button class="add-to-cart-btn" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart(${product.id})">
-                <i class="fas fa-shopping-basket"></i> إضافة للسلة
-            </button>
+            ${bestSellerBadge}
+            <div class="img-container">
+                <img src="${product.image}" alt="${product.name}" class="product-img">
+            </div>
+            <div class="product-info">
+                <span class="brand-name">${product.brand}</span>
+                <h3 class="product-title">${product.name}</h3>
+                <p class="product-price">${product.price} د.ل</p>
+                <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                    + أضف للسلة
+                </button>
+            </div>
         `;
         container.appendChild(card);
     });
 }
 
-// تصفية المنتجات (رجالي / نسائي)
-function filterCategory(category) {
-    const filtered = allProducts.filter(p => p.category === category);
-    displayProducts(filtered);
+// التحكم بالأزرار الدائرية (Tabs) وفلترة الأقسام
+function filterCategory(category, buttonElement) {
+    // تبديل الفئة النشطة بصرياً بين الأزرار
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    buttonElement.classList.add('active');
+
+    if (category === 'all') {
+        displayProducts(allProducts);
+    } else {
+        const filtered = allProducts.filter(p => p.category === category);
+        displayProducts(filtered);
+    }
 }
 
 // فتح وإغلاق السلة
@@ -47,31 +61,23 @@ function toggleCart() {
     document.getElementById("cartSidebar").classList.toggle("open");
 }
 
-// إضافة منتج للسلة
 function addToCart(id) {
     const product = allProducts.find(p => p.id === id);
     const cartItem = cart.find(item => item.id === id);
 
     if (cartItem) {
-        if (cartItem.qty < product.stock) {
-            cartItem.qty++;
-        } else {
-            alert("عذراً، لقد تجاوزت الكمية المتاحة في المخزون!");
-            return;
-        }
+        cartItem.qty++;
     } else {
         cart.push({ ...product, qty: 1 });
     }
     updateCartUI();
 }
 
-// حذف عنصر من السلة
 function removeFromCart(id) {
     cart = cart.filter(item => item.id !== id);
     updateCartUI();
 }
 
-// تحديث واجهة السلة والعداد والمجموع
 function updateCartUI() {
     const cartContainer = document.getElementById("cart-items-container");
     const cartCount = document.getElementById("cart-count");
@@ -105,7 +111,7 @@ function updateCartUI() {
     cartTotal.innerText = total;
 }
 
-// إرسال الطلب عبر الواتساب
+// إرسال البيانات المنسقة مباشرة للواتساب
 function sendToWhatsApp() {
     const name = document.getElementById("customer-name").value.trim();
     const phone = document.getElementById("customer-phone").value.trim();
@@ -113,21 +119,20 @@ function sendToWhatsApp() {
     const notes = document.getElementById("customer-notes").value.trim();
 
     if (!name || !phone || !address) {
-        alert("الرجاء ملء حقول الاسم، الهاتف، والعنوان لإتمام الطلب.");
+        alert("الرجاء ملء حقول الاسم، الهاتف، والعنوان أولاً!");
         return;
     }
 
     if (cart.length === 0) {
-        alert("سلتك فارغة! أضف بعض العطور أولاً.");
+        alert("سلتك فارغة تماماً!");
         return;
     }
 
-    // تجهيز نص الرسالة للواتساب
     let message = `*طلب جديد من متجر XVII PERFUMES* 🛍️\n\n`;
-    message += `👤 *الاسم:* ${name}\n`;
-    message += `📞 *الهاتف:* ${phone}\n`;
-    message += `📍 *الموقع:* ${address}\n`;
-    if(notes) message += `📝 *ملاحظات:* ${notes}\n`;
+    message += `👤 *الاسم بالكامل :* ${name}\n`;
+    message += `📞 *رقم الهاتف :* ${phone}\n`;
+    message += `📍 *العنوان :* ${address}\n`;
+    if(notes) message += `📝 *ملاحظات أخرى :* ${notes}\n`;
     message += `\n*المنتجات المطلوبة:*\n`;
 
     let total = 0;
@@ -138,13 +143,11 @@ function sendToWhatsApp() {
 
     message += `\n💰 *المجموع الكلي:* ${total} د.ل`;
 
-    // رقم هاتف متجرك بالصيغة الدولية (مثال لرقم ليبي: 218xxxxxxxx)
-    const myWhatsAppNumber = "218930261201"; 
+    // استبدل هذا الرقم الافتراضي برقم هاتفك الحقيقي (مع رمز الدولة بدون أصفار في البداية)
+    const myWhatsAppNumber = "218900000000"; 
     
-    // فتح رابط الواتساب
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`;
     
     window.open(whatsappUrl, '_blank');
 }
-
