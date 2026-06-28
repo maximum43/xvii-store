@@ -3,46 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XVII PERFUMES | متجر عطور</title>
+    <title>XVII PERFUMES</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
     <header>
-        <div class="logo">XVII <span>PERFUMES</span></div>
-        <nav>
-            <a href="#main" class="active">الرئيسية</a>
-            <a href="#men">رجالي</a>
-            <a href="#women">نسائي</a>
-        </nav>
         <div class="cart-icon" onclick="toggleCart()">
             <i class="fas fa-shopping-bag"></i>
             <span id="cart-count">0</span>
         </div>
+        <div class="logo">XVII</div>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>عطورنا أصلية ومختارة بعناية</h1>
-            <p>الفخامة تبدأ من اختيارك</p>
-            <a href="#products-section" class="btn">تسوق الآن</a>
-        </div>
+    <div class="hero-text">عطورنا أصلية ومختارة بعناية</div>
+
+    <section class="tabs-container">
+        <button class="tab-btn active" onclick="filterCategory('all', this)">الكل</button>
+        <button class="tab-btn" onclick="filterCategory('men', this)">رجالي</button>
+        <button class="tab-btn" onclick="filterCategory('women', this)">نسائي</button>
+        <button class="tab-btn" onclick="filterCategory('unisex', this)">مشترك</button>
     </section>
 
-    <section class="categories-nav">
-        <div class="cat-card men-card" onclick="filterCategory('men')">
-            <h3>قسم رجالي</h3>
-            <p>عطور فاخرة تعكس شخصيتك</p>
-        </div>
-        <div class="cat-card women-card" onclick="filterCategory('women')">
-            <h3>قسم نسائي</h3>
-            <p>عطور راقية تكمل إطلالتك</p>
-        </div>
-    </section>
-
-    <main id="products-section">
-        <h2 class="section-title">عطورنا المميزة</h2>
+    <main>
         <div class="products-grid" id="products-container">
             </div>
     </main>
@@ -60,22 +44,17 @@
         <div class="cart-footer">
             <div class="total-price">المجموع: <span id="cart-total">0</span> د.ل</div>
             <hr>
-            <h4>إتـمام الـطلب</h4>
-            <input type="text" id="customer-name" placeholder="الاسم الكامل" required>
-            <input type="tel" id="customer-phone" placeholder="رقم الهاتف" required>
-            <input type="text" id="customer-address" placeholder="رابط الموقع (Google Maps)" required>
-            <textarea id="customer-notes" placeholder="ملاحظات (اختياري)"></textarea>
+            <h4>إتمام الطلب</h4>
+            <input type="text" id="customer-name" placeholder="الاسم بالكامل :" required>
+            <input type="tel" id="customer-phone" placeholder="رقم الهاتف :" required>
+            <input type="text" id="customer-address" placeholder="العنوان :" required>
+            <textarea id="customer-notes" placeholder="ملاحظات أخرى : اختياري"></textarea>
             <button class="whatsapp-btn" onclick="sendToWhatsApp()">
                 <i class="fab fa-whatsapp"></i> إرسال الطلب عبر واتساب
             </button>
         </div>
     </div>
 
-    <footer>
-        <p>جميع الحقوق محفوظة © XVII PERFUMES 2026</p>
-    </footer>
-
     <script src="script.js"></script>
 </body>
 </html>
-
