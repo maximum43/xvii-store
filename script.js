@@ -139,7 +139,7 @@ function sendToWhatsApp() {
     message += `\n💰 *المجموع الكلي:* ${total} د.ل`;
 
     // رقم هاتف متجرك بالصيغة الدولية (مثال لرقم ليبي: 218xxxxxxxx)
-    const myWhatsAppNumber = "2189112775"; 
+    const myWhatsAppNumber = "218930261201"; 
     
     // فتح رابط الواتساب
     const encodedMessage = encodeURIComponent(message);
