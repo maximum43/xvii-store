@@ -9,28 +9,124 @@
 </head>
 <body>
 
-    <div class="top-black-section">
+    <div class="hero-section">
         <header>
-            <div class="cart-icon" onclick="toggleCart()">
-                <i class="fas fa-shopping-bag"></i>
-                <span id="cart-count">0</span>
+            <div class="header-right">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                    <span class="cart-text">السلة</span>
+                </div>
+                <div class="search-trigger">
+                    <i class="fas fa-search"></i>
+                </div>
             </div>
-            <div class="logo">XVII</div>
+            
+            <div class="logo">
+                XVII
+                <span class="sub-logo">PERFUMES</span>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#" class="active">الرئيسية</a>
+                <a href="#">رجالي</a>
+                <a href="#">نسائي</a>
+                <a href="#">تواصل معنا</a>
+                <a href="#" class="lang-switch"><i class="fas fa-globe"></i> EN</a>
+            </nav>
         </header>
-        <div class="hero-text">عطورنا أصلية ومختارة بعناية</div>
+
+        <div class="hero-content">
+            <h1 class="main-title">XVII</h1>
+            <p class="hero-subtitle">عطورنا أصلية ومختارة بعناية</p>
+            <div class="gold-line">─ الفخامة تبدأ من اختيارك ─</div>
+            <button class="shop-now-btn">تسوق الآن</button>
+        </div>
     </div>
 
-    <section class="tabs-container">
-        <button class="tab-btn active" onclick="filterCategory('all', this)">الكل</button>
-        <button class="tab-btn" onclick="filterCategory('men', this)">رجالي</button>
-        <button class="tab-btn" onclick="filterCategory('women', this)">نسائي</button>
-        <button class="tab-btn" onclick="filterCategory('unisex', this)">مشترك</button>
-    </section>
-
-    <main>
-        <div class="products-grid" id="products-container">
+    <div class="main-container">
+        
+        <div class="promo-sections">
+            <div class="promo-box men-box">
+                <div class="promo-info">
+                    <h3>قسم رجالي</h3>
+                    <p>عطور فاخرة تعكس شخصيتك</p>
+                    <button class="promo-btn">تسوق الآن</button>
+                </div>
+                <div class="gender-icon"><i class="fas fa-mars"></i></div>
             </div>
-    </main>
+            <div class="promo-box women-box">
+                <div class="promo-info">
+                    <h3>قسم نسائي</h3>
+                    <p>عطور راقية تكمل إطلالتك</p>
+                    <button class="promo-btn">تسوق الآن</button>
+                </div>
+                <div class="gender-icon"><i class="fas fa-venus"></i></div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="ابحث عن عطر...">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="mobile-tabs">
+            <button class="tab-btn active" onclick="filterCategory('all', this)">الكل</button>
+            <button class="tab-btn" onclick="filterCategory('men', this)">رجالي</button>
+            <button class="tab-btn" onclick="filterCategory('women', this)">نسائي</button>
+            <button class="tab-btn" onclick="filterCategory('unisex', this)">مشترك</button>
+        </div>
+
+        <div class="section-divider">
+            <span>عطور رجالية</span>
+        </div>
+        <main>
+            <div class="products-grid" id="products-men-container">
+                </div>
+        </main>
+
+        <div class="section-divider">
+            <span>عطور نسائية</span>
+        </div>
+        <main style="padding-top: 0;">
+            <div class="products-grid" id="products-women-container">
+                </div>
+        </main>
+
+    </div>
+
+    <footer>
+        <div class="features-bar">
+            <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <h4>منتجات أصلية 100%</h4>
+                    <p>جودة مضمونة</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-truck"></i>
+                <div>
+                    <h4>توصيل سريع وآمن</h4>
+                    <p>لكافة المدن</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-hand-holding-usd"></i>
+                <div>
+                    <h4>دفع عند الاستلام</h4>
+                    <p>أمان وراحة</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p>جميع الحقوق محفوظة © XVII PERFUMES 2026</p>
+        </div>
+    </footer>
 
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -39,20 +135,25 @@
         </div>
         
         <div class="cart-items" id="cart-items-container">
-            <p class="empty-msg">سلة مشترياتك فارغة</p>
+            <div class="empty-cart-state">
+                <i class="fas fa-shopping-basket"></i>
+                <p>سلة مشترياتك فارغة</p>
+                <span>أضف منتجاتك المفضلة الآن</span>
+            </div>
         </div>
 
         <div class="cart-footer">
             <div class="total-price">المجموع: <span id="cart-total">0</span> د.ل</div>
-            <hr>
-            <h4>إتمام الطلب</h4>
-            <input type="text" id="customer-name" placeholder="الاسم بالكامل :" required>
-            <input type="tel" id="customer-phone" placeholder="رقم الهاتف :" required>
-            <input type="text" id="customer-address" placeholder="العنوان :" required>
-            <textarea id="customer-notes" placeholder="ملاحظات أخرى : اختياري"></textarea>
-            <button class="whatsapp-btn" onclick="sendToWhatsApp()">
-                <i class="fab fa-whatsapp"></i> إرسال الطلب عبر واتساب
-            </button>
+            <div class="checkout-form">
+                <h4>إتمام الطلب</h4>
+                <input type="text" id="customer-name" placeholder="الاسم الكامل" required>
+                <input type="tel" id="customer-phone" placeholder="رقم الهاتف" required>
+                <input type="text" id="customer-address" placeholder="رابط الموقع (Google Maps)" required>
+                <textarea id="customer-notes" placeholder="ملاحظات (اختياري)"></textarea>
+                <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> إرسال الطلب عبر واتساب
+                </button>
+            </div>
         </div>
     </div>
 
