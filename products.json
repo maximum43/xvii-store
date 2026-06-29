@@ -1,38 +1,110 @@
 [
   {
     "id": 1,
+    "title": "Dior Sauvage",
     "brand": "Dior",
-    "name": "Dior Sauvage",
-    "category": "men",
     "price": 350,
-    "bestSeller": true,
-    "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500"
+    "category": "men",
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?w=400"
   },
   {
     "id": 2,
+    "title": "Bleu de Chanel",
     "brand": "Chanel",
-    "name": "Bleu de Chanel",
-    "category": "men",
     "price": 320,
-    "bestSeller": false,
-    "image": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=500"
+    "category": "men",
+    "stock": 3,
+    "image": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400"
   },
   {
     "id": 3,
-    "brand": "Versace",
-    "name": "Versace Eros",
+    "title": "Acqua Di Gio",
+    "brand": "Armani",
+    "price": 300,
     "category": "men",
-    "price": 280,
-    "bestSeller": false,
-    "image": "https://images.unsplash.com/photo-1615396899839-c99c121888b0?w=500"
+    "stock": "نَفَدَ المَخْزُون",
+    "image": "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400"
   },
   {
     "id": 4,
-    "brand": "Armani",
-    "name": "Acqua Di Gio",
-    "category": "unisex",
+    "title": "Versace Eros",
+    "brand": "Versace",
+    "price": 280,
+    "category": "men",
+    "stock": 0,
+    "image": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400"
+  },
+  {
+    "id": 5,
+    "title": "YSL Y",
+    "brand": "YSL",
+    "price": 310,
+    "category": "men",
+    "stock": 4,
+    "image": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400"
+  },
+  {
+    "id": 6,
+    "title": "Creed Aventus",
+    "brand": "Creed",
+    "price": 500,
+    "category": "men",
+    "stock": 1,
+    "image": "https://images.unsplash.com/photo-1615655096345-61a54750068d?w=400"
+  },
+  {
+    "id": 7,
+    "title": "Coco Mademoiselle",
+    "brand": "Chanel",
+    "price": 350,
+    "category": "women",
+    "stock": 4,
+    "image": "https://images.unsplash.com/photo-1588405748373-122b2321bc31?w=400"
+  },
+  {
+    "id": 8,
+    "title": "Good Girl",
+    "brand": "Carolina Herrera",
+    "price": 380,
+    "category": "women",
+    "stock": 2,
+    "image": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=400"
+  },
+  {
+    "id": 9,
+    "title": "Miss Dior",
+    "brand": "Dior",
+    "price": 330,
+    "category": "women",
+    "stock": 3,
+    "image": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400"
+  },
+  {
+    "id": 10,
+    "title": "La Vie Est Belle",
+    "brand": "Lancome",
+    "price": 320,
+    "category": "women",
+    "stock": "نَفَدَ المَخْزُون",
+    "image": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?w=400"
+  },
+  {
+    "id": 11,
+    "title": "Gucci Bloom",
+    "brand": "Gucci",
+    "price": 280,
+    "category": "women",
+    "stock": 2,
+    "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400"
+  },
+  {
+    "id": 12,
+    "title": "Black Opium",
+    "brand": "YSL",
     "price": 300,
-    "bestSeller": false,
-    "image": "https://images.unsplash.com/photo-1617897903246-719242758050?w=500"
+    "category": "women",
+    "stock": 1,
+    "image": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400"
   }
 ]
