@@ -3,54 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر العطور</title>
+    <title>متجر العطور الفاخرة</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
-    <!-- شريط التنقل -->
+    <!-- شريط التنقل العلوي -->
     <header>
-        <div class="logo">متجر العطور الفاخرة</div>
+        <div class="logo">أريج الفخامة</div>
         <div class="cart-icon" onclick="toggleCart()">
             🛒 <span id="cart-count">0</span>
         </div>
     </header>
 
-    <!-- محتوى الصفحة الرئيسي -->
+    <!-- القسم الرئيسي -->
     <main>
+        <section class="hero">
+            <h1>اكتشف عاصفة من الجاذبية</h1>
+            <p>مجموعة حصرية من العطور العالمية الفاخرة بين يديك.</p>
+        </section>
+
+        <!-- حاوية عرض المنتجات -->
         <section class="products" id="products-container">
-            <!-- المنتجات تتولد هنا ديناميكياً -->
+            <!-- المنتجات سيتم تحميلها ديناميكياً بواسطة الجافا سكريبت -->
         </section>
     </main>
 
-    <!-- سلة التسوق الجانبية ونموذج الطلب -->
+    <!-- سلة التسوق الجانبية -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>سلة المشتريات</h3>
+            <h3>سلة التسوق</h3>
             <button class="close-btn" onclick="toggleCart()">×</button>
         </div>
-        
-        <!-- قائمة المنتجات المضافة -->
         <div class="cart-items" id="cartItems"></div>
-
-        <!-- نموذج بيانات الزبون لإتمام الطلب -->
-        <div class="order-form">
-            <h4>بيانات التوصيل</h4>
-            <div class="form-group">
-                <label for="customerName">الاسم ثلاثي:</label>
-                <input type="text" id="customerName" placeholder="إدخال الاسم الكامل">
-            </div>
-            <div class="form-group">
-                <label for="customerPhone">رقم الهاتف:</label>
-                <input type="tel" id="customerPhone" placeholder="09XXXXXXXX">
-            </div>
-            <div class="form-group">
-                <label for="customerAddress">المدينة / العنوان:</label>
-                <input type="text" id="customerAddress" placeholder="مثال: طرابلس - حي الأندلس">
-            </div>
-        </div>
-
-        <!-- إجمالي السعر وزر التأكيد -->
         <div class="cart-footer">
             <p>الإجمالي: <span id="cart-total">0</span> د.ل</p>
             <button class="checkout-btn" onclick="checkoutWhatsApp()">تأكيد الطلب عبر الواتساب</button>
