@@ -1,149 +1,218 @@
-let allProducts = [];
-let cart = [];
+// --- المتغيرات الأساسية ---
+let products = JSON.parse(localStorage.getItem('parfum_products')) || [
+    // عطور افتراضية للعرض المبدئي
+    { id: 1, name: 'خمرة قهوة', price: 155, category: 'مشترك', image: 'https://via.placeholder.com/150/8B4513/FFFFFF?text=Khamrah' },
+    { id: 2, name: 'Ajuad', price: 135, category: 'نسائي', image: 'https://via.placeholder.com/150/FFD700/000000?text=Ajuad' }
+];
 
-// جلب المنتجات من ملف JSON عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-    fetch('products.json')
-        .then(response => response.json())
-        .then(data => {
-            allProducts = data;
-            displayProducts(allProducts);
-        })
-        .catch(err => console.error("خطأ في تحميل العطور:", err));
-});
+let cart = JSON.parse(localStorage.getItem('parfum_cart')) || [];
 
-// عرض المنتجات في الصفحة
-function displayProducts(products) {
-    const container = document.getElementById("products-container");
-    container.innerHTML = "";
+// --- دوال واجهة المستخدم (الرئيسية) ---
 
-    products.forEach(product => {
-        const isOutOfStock = product.stock === 0;
-        const stockText = isOutOfStock ? '<p class="out-of-stock-tag">نفد المخزون</p>' : `<p class="stock-tag">متوفر (${product.stock})</p>`;
-        
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-img">
-            <h3 class="product-title">${product.name}</h3>
-            <p class="product-price">${product.price} د.ل</p>
-            ${stockText}
-            <button class="add-to-cart-btn" ${isOutOfStock ? 'disabled' : ''} onclick="addToCart(${product.id})">
-                <i class="fas fa-shopping-basket"></i> إضافة للسلة
-            </button>
-        `;
-        container.appendChild(card);
-    });
-}
-
-// تصفية المنتجات (رجالي / نسائي)
-function filterCategory(category) {
-    const filtered = allProducts.filter(p => p.category === category);
-    displayProducts(filtered);
-}
-
-// فتح وإغلاق السلة
-function toggleCart() {
-    document.getElementById("cartSidebar").classList.toggle("open");
-}
-
-// إضافة منتج للسلة
-function addToCart(id) {
-    const product = allProducts.find(p => p.id === id);
-    const cartItem = cart.find(item => item.id === id);
-
-    if (cartItem) {
-        if (cartItem.qty < product.stock) {
-            cartItem.qty++;
-        } else {
-            alert("عذراً، لقد تجاوزت الكمية المتاحة في المخزون!");
-            return;
-        }
-    } else {
-        cart.push({ ...product, qty: 1 });
+// فتح وإغلاق القائمة الجانبية
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if(sidebar) {
+        sidebar.classList.toggle('active');
+        overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
     }
-    updateCartUI();
 }
 
-// حذف عنصر من السلة
-function removeFromCart(id) {
-    cart = cart.filter(item => item.id !== id);
-    updateCartUI();
-}
-
-// تحديث واجهة السلة والعداد والمجموع
-function updateCartUI() {
-    const cartContainer = document.getElementById("cart-items-container");
-    const cartCount = document.getElementById("cart-count");
-    const cartTotal = document.getElementById("cart-total");
-
-    cartCount.innerText = cart.reduce((acc, item) => acc + item.qty, 0);
-
-    if (cart.length === 0) {
-        cartContainer.innerHTML = '<p class="empty-msg">سلة مشترياتك فارغة</p>';
-        cartTotal.innerText = "0";
-        return;
-    }
-
-    cartContainer.innerHTML = "";
-    let total = 0;
-
-    cart.forEach(item => {
-        total += item.price * item.qty;
-        const itemEl = document.createElement("div");
-        itemEl.className = "cart-item";
-        itemEl.innerHTML = `
-            <div class="cart-item-info">
-                <h4>${item.name}</h4>
-                <p>${item.price} د.ل × ${item.qty}</p>
+// عرض المنتجات
+function renderProducts(categoryFilter = 'الكل') {
+    const grid = document.getElementById('product-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    const filtered = categoryFilter === 'الكل' ? products : products.filter(p => p.category === categoryFilter);
+    
+    filtered.forEach(product => {
+        grid.innerHTML += `
+            <div class="product-card">
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <div class="product-price">${product.price} د.ل</div>
+                <button class="add-to-cart" onclick="addToCart(${product.id})">أضف <i class="fa-solid fa-bag-shopping"></i></button>
             </div>
-            <i class="fas fa-trash remove-item" onclick="removeFromCart(${item.id})"></i>
         `;
-        cartContainer.appendChild(itemEl);
     });
-
-    cartTotal.innerText = total;
 }
 
-// إرسال الطلب عبر الواتساب
-function sendToWhatsApp() {
-    const name = document.getElementById("customer-name").value.trim();
-    const phone = document.getElementById("customer-phone").value.trim();
-    const address = document.getElementById("customer-address").value.trim();
-    const notes = document.getElementById("customer-notes").value.trim();
+// تصفية العطور حسب الفئة
+function filterCategory(category) {
+    renderProducts(category);
+    toggleMenu(); // إغلاق القائمة الجانبية إذا كانت مفتوحة
+}
 
-    if (!name || !phone || !address) {
-        alert("الرجاء ملء حقول الاسم، الهاتف، والعنوان لإتمام الطلب.");
-        return;
+// --- دوال سلة المشتريات ---
+
+function toggleCart() {
+    const modal = document.getElementById('cart-modal');
+    if(modal) {
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        renderCart();
     }
+}
 
-    if (cart.length === 0) {
-        alert("سلتك فارغة! أضف بعض العطور أولاً.");
-        return;
-    }
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    localStorage.setItem('parfum_cart', JSON.stringify(cart));
+    updateCartCount();
+    alert('تمت الإضافة إلى السلة!');
+}
 
-    // تجهيز نص الرسالة للواتساب
-    let message = `*طلب جديد من متجر XVII PERFUMES* 🛍️\n\n`;
-    message += `👤 *الاسم:* ${name}\n`;
-    message += `📞 *الهاتف:* ${phone}\n`;
-    message += `📍 *الموقع:* ${address}\n`;
-    if(notes) message += `📝 *ملاحظات:* ${notes}\n`;
-    message += `\n*المنتجات المطلوبة:*\n`;
+function updateCartCount() {
+    const countSpan = document.getElementById('cart-count');
+    if(countSpan) countSpan.innerText = cart.length;
+}
 
+function renderCart() {
+    const cartItems = document.getElementById('cart-items');
+    const totalPrice = document.getElementById('total-price');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const checkoutForm = document.getElementById('checkout-form');
+    
+    cartItems.innerHTML = '';
     let total = 0;
-    cart.forEach(item => {
-        message += `- ${item.name} (العدد: ${item.qty}) -> ${item.price * item.qty} د.ل\n`;
-        total += item.price * item.qty;
-    });
 
-    message += `\n💰 *المجموع الكلي:* ${total} د.ل`;
-
-    // رقم هاتف متجرك بالصيغة الدولية (مثال لرقم ليبي: 218xxxxxxxx)
-    const myWhatsAppNumber = "218900000000"; 
+    if(cart.length === 0) {
+        cartItems.innerHTML = '<p style="text-align:center; padding:20px;">سلتك فارغة حالياً.</p>';
+        checkoutBtn.style.display = 'none';
+        checkoutForm.style.display = 'none';
+    } else {
+        cart.forEach((item, index) => {
+            total += item.price;
+            cartItems.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>${item.price} د.ل</span>
+                    <i class="fa-solid fa-trash" style="color:red; cursor:pointer;" onclick="removeFromCart(${index})"></i>
+                </div>
+            `;
+        });
+        
+        // تطبيق خصم 10%
+        let discountedTotal = total - (total * 0.10);
+        checkoutBtn.style.display = 'block';
+    }
     
-    // فتح رابط الواتساب
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, '_blank');
+    totalPrice.innerText = total > 0 ? (total - (total * 0.10)).toFixed(2) : 0;
 }
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    localStorage.setItem('parfum_cart', JSON.stringify(cart));
+    updateCartCount();
+    renderCart();
+}
+
+function showCheckoutForm() {
+    document.getElementById('checkout-btn').style.display = 'none';
+    document.getElementById('checkout-form').style.display = 'block';
+}
+
+function submitOrder() {
+    const name = document.getElementById('cust-name').value;
+    const phone = document.getElementById('cust-phone').value;
+    const address = document.getElementById('cust-address').value;
+    
+    if(!name || !phone || !address) {
+        alert('الرجاء تعبئة جميع الحقول الإلزامية');
+        return;
+    }
+
+    // هنا يتم إرسال الطلب (يمكن ربطها لاحقاً بـ WhatsApp أو Email)
+    alert(`شكراً لك ${name}! تم استلام طلبك بنجاح وسيتم التواصل معك قريباً.`);
+    
+    // تفريغ السلة
+    cart = [];
+    localStorage.setItem('parfum_cart', JSON.stringify(cart));
+    updateCartCount();
+    toggleCart();
+    document.getElementById('checkout-form').style.display = 'none';
+}
+
+
+// --- دوال لوحة التحكم (Admin) ---
+
+function checkPassword() {
+    const pass = document.getElementById('admin-password').value;
+    if (pass === '17782') {
+        document.getElementById('admin-login').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'block';
+        renderAdminProducts();
+    } else {
+        alert('كلمة المرور خاطئة!');
+    }
+}
+
+// دالة تحويل الصورة المرفوعة إلى نص Base64 ليتم حفظها في LocalStorage
+function getBase64(file, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(file);
+}
+
+function addProduct() {
+    const name = document.getElementById('prod-name').value;
+    const price = parseFloat(document.getElementById('prod-price').value);
+    const category = document.getElementById('prod-category').value;
+    const imageFile = document.getElementById('prod-image').files[0];
+
+    if (!name || !price || !imageFile) {
+        alert('الرجاء تعبئة كافة البيانات واختيار صورة');
+        return;
+    }
+
+    getBase64(imageFile, (base64Image) => {
+        const newProduct = {
+            id: Date.now(),
+            name: name,
+            price: price,
+            category: category,
+            image: base64Image // الصورة الآن محفوظة كنص
+        };
+        
+        products.push(newProduct);
+        localStorage.setItem('parfum_products', JSON.stringify(products));
+        alert('تمت إضافة العطر بنجاح!');
+        
+        // تفريغ الحقول
+        document.getElementById('prod-name').value = '';
+        document.getElementById('prod-price').value = '';
+        document.getElementById('prod-image').value = '';
+        
+        renderAdminProducts();
+    });
+}
+
+function renderAdminProducts() {
+    const list = document.getElementById('admin-product-list');
+    if (!list) return;
+    
+    list.innerHTML = '';
+    products.forEach(product => {
+        list.innerHTML += `
+            <div class="admin-product-item">
+                <span>${product.name} - ${product.price} د.ل</span>
+                <button class="delete-btn" onclick="deleteProduct(${product.id})">حذف</button>
+            </div>
+        `;
+    });
+}
+
+function deleteProduct(id) {
+    if(confirm('هل أنت متأكد من حذف هذا العطر؟')) {
+        products = products.filter(p => p.id !== id);
+        localStorage.setItem('parfum_products', JSON.stringify(products));
+        renderAdminProducts();
+    }
+}
+
+// التهيئة عند تحميل الصفحة
+window.onload = () => {
+    updateCartCount();
+    renderProducts();
+};
