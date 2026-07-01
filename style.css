@@ -1,10 +1,10 @@
 :root {
-    --bg-color: #f8f9fa;     /* خلفية الموقع بيضاء ناصعة ومريحة */
-    --card-bg: #ffffff;      /* خلفية كروت العطور بيضاء */
-    --accent-color: #af9164; /* لون ذهبي كلاسيكي متناسق مع الأبيض */
-    --text-color: #1a1a1a;   /* نصوص داكنة لضمان وضوح القراءة */
-    --text-muted: #6c757d;   /* نصوص فرعية بالرمادي */
-    --border-color: #e0e0e0; /* حدود خفيفة وناعمة */
+    --bg-color: #0f0f11;
+    --card-bg: #1a1a1e;
+    --accent-color: #d4af37; /* لون ذهبي للمظهر الفخم */
+    --text-color: #ffffff;
+    --text-muted: #a0a0a5;
+    --border-color: #2a2a30;
 }
 
 * {
@@ -26,11 +26,10 @@ header {
     padding: 20px 5%;
     background-color: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .logo {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
     color: var(--accent-color);
 }
@@ -43,19 +42,35 @@ header {
 
 #cart-count {
     position: absolute;
-    top: -5px;
+    top: -8px;
     right: -10px;
     background: var(--accent-color);
-    color: #fff;
-    font-size: 11px;
+    color: #000;
+    font-size: 12px;
     padding: 2px 6px;
     border-radius: 50%;
     font-weight: bold;
 }
 
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(rgba(15,15,17,0.85), rgba(15,15,17,1));
+}
+
+.hero h1 {
+    font-size: 36px;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: var(--text-muted);
+}
+
 .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 25px;
     padding: 40px 5%;
 }
@@ -63,66 +78,63 @@ header {
 .product-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 20px;
     text-align: center;
-    transition: transform 0.2s, border-color 0.3s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    transition: transform 0.3s, border-color 0.3s;
 }
 
 .product-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     border-color: var(--accent-color);
 }
 
 .product-card img {
     max-width: 100%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 8px;
     margin-bottom: 15px;
 }
 
 .product-card h3 {
-    font-size: 16px;
-    margin-bottom: 8px;
-    color: var(--text-color);
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
 .price {
     color: var(--accent-color);
     font-weight: bold;
+    font-size: 18px;
     margin-bottom: 15px;
 }
 
 .add-btn {
-    background-color: transparent;
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
-    padding: 10px;
-    border-radius: 4px;
+    background-color: var(--accent-color);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
     cursor: pointer;
-    width: 100%;
     font-weight: bold;
-    transition: all 0.2s;
+    width: 100%;
+    transition: background 0.2s;
 }
 
 .add-btn:hover {
-    background-color: var(--accent-color);
-    color: #fff;
+    opacity: 0.9;
 }
 
-/* السلة الجانبية البيضاء */
+/* سلة التسوق الجانبية */
 .cart-sidebar {
     position: fixed;
     top: 0;
-    right: -380px;
-    width: 360px;
+    right: -360px;
+    width: 350px;
     height: 100%;
     background-color: var(--card-bg);
-    border-left: 1px solid var(--border-color);
-    box-shadow: -5px 0 25px rgba(0,0,0,0.1);
-    transition: right 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    transition: right 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
     z-index: 1000;
@@ -143,8 +155,8 @@ header {
 .close-btn {
     background: none;
     border: none;
-    color: var(--text-color);
-    font-size: 24px;
+    color: #fff;
+    font-size: 28px;
     cursor: pointer;
 }
 
@@ -159,12 +171,12 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    padding-bottom: 10px;
     border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
 }
 
-.cart-item small {
-    color: var(--text-muted);
+.cart-item h4 {
+    font-size: 14px;
 }
 
 .remove-btn {
@@ -172,67 +184,23 @@ header {
     border: none;
     color: #ff4d4d;
     cursor: pointer;
-    font-weight: 500;
-}
-
-/* نموذج البيانات المنسق باللون الفاتح */
-.order-form {
-    padding: 15px 20px;
-    background-color: #f1f3f5;
-    border-top: 1px solid var(--border-color);
-}
-
-.order-form h4 {
-    margin-bottom: 10px;
-    color: var(--text-color);
-    font-size: 14px;
-}
-
-.form-group {
-    margin-bottom: 8px;
-}
-
-.form-group label {
-    display: block;
     font-size: 12px;
-    margin-bottom: 4px;
-    color: var(--text-muted);
-}
-
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    border-radius: 4px;
-    outline: none;
-}
-
-.form-group input:focus {
-    border-color: var(--accent-color);
 }
 
 .cart-footer {
     padding: 20px;
     border-top: 1px solid var(--border-color);
-    background-color: var(--card-bg);
 }
 
 .checkout-btn {
-    background-color: #25d366;
-    color: #fff;
+    background-color: #25d366; /* لون الواتساب المميز */
+    color: white;
     border: none;
-    padding: 12px;
+    padding: 14px;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
     margin-top: 10px;
-    font-size: 15px;
-    box-shadow: 0 3px 6px rgba(37, 211, 102, 0.2);
-}
-
-.checkout-btn:hover {
-    background-color: #20ba5a;
+    font-size: 16px;
 }
