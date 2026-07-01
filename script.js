@@ -1,4 +1,4 @@
-// مصفوفة المنتجات (JSON المدمج)
+// مصفوفة المنتجات بصيغة كائنات (JSON Structure)
 const products = [
     { id: 1, name: "عطر مضاوي الخاص", price: 150, image: "https://via.placeholder.com/220" },
     { id: 2, name: "بلو شانيل الفاخر", price: 280, image: "https://via.placeholder.com/220" },
@@ -7,7 +7,7 @@ const products = [
 
 let cart = [];
 
-// عرض المنتجات ديناميكياً عند الفتح
+// توليد وعرض المنتجات ديناميكياً داخل الصفحة
 function displayProducts() {
     const container = document.getElementById('products-container');
     if (!container) return;
@@ -22,10 +22,12 @@ function displayProducts() {
     `).join('');
 }
 
+// تبديل حالة السلة (فتح / إغلاق)
 function toggleCart() {
     document.getElementById('cartSidebar').classList.toggle('open');
 }
 
+// إضافة المنتجات إلى السلة مع زيادة الكمية تلقائياً
 function addToCart(id) {
     const product = products.find(p => p.id === id);
     const cartItem = cart.find(item => item.id === id);
@@ -38,11 +40,13 @@ function addToCart(id) {
     updateCartUI();
 }
 
+// إزالة منتج بالكامل من السلة
 function removeFromCart(id) {
     cart = cart.filter(item => item.id !== id);
     updateCartUI();
 }
 
+// تحديث العدادات والإجمالي في واجهة المستخدم
 function updateCartUI() {
     const cartItemsContainer = document.getElementById('cartItems');
     const cartCount = document.getElementById('cart-count');
@@ -58,7 +62,7 @@ function updateCartUI() {
             <div class="cart-item">
                 <div>
                     <h4>${item.name}</h4>
-                    <small>${item.price} د.ل × ${item.quantity}</small>
+                    <small style="color: #a0a0a5;">${item.price} د.ل × ${item.quantity}</small>
                 </div>
                 <button class="remove-btn" onclick="removeFromCart(${item.id})">إزالة</button>
             </div>
@@ -69,44 +73,26 @@ function updateCartUI() {
     cartTotal.innerText = total;
 }
 
-// دالة الربط مع الواتساب وإرسال تفاصيل الزبون والطلب
+// تجهيز الطلب وإرساله للواتساب بالتفاصيل والإجمالي
 function checkoutWhatsApp() {
     if (cart.length === 0) {
-        alert("السلة فارغة! أضف عطوراً أولاً.");
+        alert("سلة التسوق فارغة حالياً!");
         return;
     }
 
-    // جلب بيانات نموذج الزبون
-    const name = document.getElementById('customerName').value.trim();
-    const phone = document.getElementById('customerPhone').value.trim();
-    const address = document.getElementById('customerAddress').value.trim();
-
-    // التحقق من تعبئة البيانات الأساسية
-    if (!name || !phone || !address) {
-        alert("الرجاء تعبئة كافة بيانات التوصيل أولاً.");
-        return;
-    }
-
-    const myWhatsAppNumber = "218900000000"; // ضع رقم هاتفك هنا بصيغته الدولية
+    const phoneNumber = "218900000000"; // استبدله برقم هاتفك الدولي (بدون مفتاح + أو أصفار إضافية)
+    let message = "مرحباً، أود طلب العطور التالية من المتجر:\n\n";
     
-    // صياغة رسالة الطلب وتضمين بيانات الزبون
-    let message = `*طلب جديد من المتجر*\n\n`;
-    message += `👤 *بيانات الزبون:*\n`;
-    message += `• الاسم: ${name}\n`;
-    message += `• الهاتف: ${phone}\n`;
-    message += `• العنوان: ${address}\n\n`;
-    
-    message += `🛍️ *المنتجات المطلوبة:*\n`;
     cart.forEach(item => {
-        message += `• ${item.name} (العدد: ${item.quantity}) -> ${item.price * item.quantity} د.ل\n`;
+        message += `• *${item.name}* (الكمية: ${item.quantity}) - السعر: ${item.price * item.quantity} د.ل\n`;
     });
 
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    message += `\n💰 *الإجمالي الكلي:* ${total} د.ل`;
+    message += `\n*الإجمالي الكلي:* ${total} د.ل`;
 
-    // فتح رابط الواتساب بالرسالة المنسقة
-    const url = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
 }
 
+// تشغيل جلب المنتجات فور تحميل الصفحة بالكامل
 window.onload = displayProducts;
