@@ -3,100 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XVII PARFUM</title>
+    <title>متجر العطور الفاخرة</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
+    
+    <!-- شريط التنقل العلوي -->
     <header>
+        <div class="logo">أريج الفخامة</div>
         <div class="cart-icon" onclick="toggleCart()">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span id="cart-count">0</span>
-        </div>
-        <div class="logo">X V I I</div>
-        <div class="menu-icon" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
+            🛒 <span id="cart-count">0</span>
         </div>
     </header>
 
-    <!-- Top Banner -->
-    <div class="top-banner">
-        خصم 10% بمناسبة الافتتاح — على جميع العطور ✨
-    </div>
+    <!-- القسم الرئيسي -->
+    <main>
+        <section class="hero">
+            <h1>اكتشف عاصفة من الجاذبية</h1>
+            <p>مجموعة حصرية من العطور العالمية الفاخرة بين يديك.</p>
+        </section>
 
-    <!-- Sidebar Menu -->
-    <div id="sidebar" class="sidebar">
-        <div class="close-btn" onclick="toggleMenu()"><i class="fa-solid fa-xmark"></i></div>
-        <div class="sidebar-logo">X V I I</div>
-        <ul class="menu-links">
-            <li><a href="#" onclick="toggleMenu()">الرئيسية</a></li>
-            <li class="dropdown">
-                <a href="#">الكاتقوري</a>
-                <ul class="submenu">
-                    <li><a href="#" onclick="filterCategory('رجالي')">رجالي</a></li>
-                    <li><a href="#" onclick="filterCategory('نسائي')">نسائي</a></li>
-                    <li><a href="#" onclick="filterCategory('مشترك')">مشترك</a></li>
-                </ul>
-            </li>
-            <li><a href="#">تواصل معنا</a></li>
-            <li><a href="#">من نحن</a></li>
-            <li><a href="admin.html">admin</a></li>
-        </ul>
-    </div>
-    <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+        <!-- حاوية عرض المنتجات -->
+        <section class="products" id="products-container">
+            <!-- المنتجات سيتم تحميلها ديناميكياً بواسطة الجافا سكريبت -->
+        </section>
+    </main>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <p class="subtitle">X V I I &nbsp; P A R F U M</p>
-        <h1>عطور <span>عربية</span> أصلية صُنعت لتروي حكاية.</h1>
-        <p class="desc">مجموعة مختارة بعناية من أرقى العطور الشرقية. عبق يبقى، وحضور لا يُنسى.</p>
-        <div class="categories-btn">
-            <button onclick="filterCategory('مشترك')">مشترك</button>
-            <button onclick="filterCategory('نسائي')">نسائي</button>
-            <button onclick="filterCategory('رجالي')" class="active">رجالي</button>
+    <!-- سلة التسوق الجانبية -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>سلة التسوق</h3>
+            <button class="close-btn" onclick="toggleCart()">×</button>
         </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products">
-        <div class="section-title">
-            <h2>المجموعة</h2>
-            <p>أحدث ما وصلنا من عطور أصلية</p>
-        </div>
-        <div class="product-grid" id="product-grid">
-            <!-- المنتجات ستظهر هنا عبر الجافاسكربت -->
-        </div>
-    </section>
-
-    <!-- Cart Modal -->
-    <div id="cart-modal" class="cart-modal">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h2>سلة المشتريات</h2>
-                <button class="close-cart" onclick="toggleCart()"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <p class="cart-discount-note">خصم الافتتاح 10% مطبق تلقائياً على الإجمالي.</p>
-            
-            <div id="cart-items" class="cart-items">
-                <!-- عناصر السلة -->
-            </div>
-            
-            <div class="cart-total">
-                الإجمالي: <span id="total-price">0</span> د.ل
-            </div>
-
-            <!-- Checkout Form -->
-            <div class="checkout-form" id="checkout-form" style="display: none;">
-                <h3>معلومات الطلب</h3>
-                <input type="text" id="cust-name" placeholder="الاسم بالكامل" required>
-                <input type="tel" id="cust-phone" placeholder="رقم الهاتف" required>
-                <input type="text" id="cust-address" placeholder="العنوان" required>
-                <textarea id="cust-notes" placeholder="ملاحظات أخرى (اختياري)"></textarea>
-                <button class="submit-order" onclick="submitOrder()">تأكيد الطلب</button>
-            </div>
-            <button id="checkout-btn" class="checkout-btn" onclick="showCheckoutForm()" style="display: none;">إتمام الطلب</button>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <p>الإجمالي: <span id="cart-total">0</span> د.ل</p>
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">تأكيد الطلب عبر الواتساب</button>
         </div>
     </div>
 
